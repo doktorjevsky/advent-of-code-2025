@@ -2,10 +2,10 @@
 
 
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. ${SCRIPTDIR}/../utils/nicetohave.sh
 
 get_0_passes()
 {
-    # position is always in [0, 99]
     local position="$1"
     local amount="$2"
     local a=$((amount / 100))
@@ -26,6 +26,8 @@ part()
     local count=0
     local position=50
     local position_old
+    local N=$(cat $INPUT | wc -l)
+    local processed=0
     while read -r instruction; do
 
         local amount=$(echo $instruction | grep -oE "[0-9]+") 
@@ -47,10 +49,11 @@ part()
         position=$(((position + (amount / 100 + 1) * 100) % 100))
 
         ((PART == 1)) && [[ $position -eq 0 ]] && count=$((count+1))
+        processed=$((processed + 1))
+        progress_bar $processed $N
 
         
     done < "$INPUT"
-
     echo "PART $PART: $count"
 }
 
