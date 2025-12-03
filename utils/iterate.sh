@@ -51,24 +51,10 @@ repeat()
         esac
     done 
 
-    local i=0
-
-    __stop()
-    {
-        local i="$1"
-        local cond="$2"
-
-        if [[ "$cond" == "inf" ]]; then 
-            return 1 
-        fi 
-
-        (( i >= cond ))
-    }
-
-    local obj="$1"
-    while ! __stop $i $times; do 
+    local obj="$1" i
+    for ((i=0; i < $times; i++)); do 
         printf "%s${separator}" "$obj"
-        ((i++))
+
     done 
 
 }
