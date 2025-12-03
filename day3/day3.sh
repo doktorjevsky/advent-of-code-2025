@@ -13,10 +13,14 @@ find_max_n_num_joltage()
     num=${row:0:$n}
     
     local i j contender new_num
+
     for ((i=$n; i < ${#row}; i++)); do 
         new_num="${num}${row:i:1}"
+
         for ((j=0; j < ${#new_num}; j++)); do
+
             contender="${new_num:0:$j}${new_num:$((j+1))}"
+            
             if ((contender > num)); then 
                 num=$contender
             fi
