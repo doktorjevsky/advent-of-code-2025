@@ -49,7 +49,7 @@ part()
         position=$(((position + (amount / 100 + 1) * 100) % 100))
 
         ((PART == 1)) && [[ $position -eq 0 ]] && count=$((count+1))
-        processed=$((processed + 1))
+        ((processed++))
         progress_bar $processed $N
 
         
@@ -62,10 +62,9 @@ main()
 {
     [ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
 
-    part 1 &
+    part 1
     part 2
 
-    wait
 }
 
 (return 0 2>/dev/null) || time main
