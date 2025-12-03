@@ -7,15 +7,15 @@ SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 find_max_n_num_joltage()
 {
-    local n="$1"
-    local row
+    local n="$1" row num
+    
     read -r row
-    local num=${row:0:$n}
+    num=${row:0:$n}
     
     local i j contender new_num
-    for i in $(seq $n $((${#row} - 1))); do 
+    for ((i=$n; i < ${#row}; i++)); do 
         new_num="${num}${row:i:1}"
-        for j in $(seq 0 $((${#new_num}-1))); do
+        for ((j=0; j < ${#new_num}; j++)); do
             contender="${new_num:0:$j}${new_num:$((j+1))}"
             if ((contender > num)); then 
                 num=$contender
