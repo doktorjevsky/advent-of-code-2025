@@ -41,8 +41,17 @@ progress_bar() {
     bar="[${filled_str}${empty_str}]"
 
     
-    printf "\033[?25l\r${color}%-*s %3d%%%s" "$((width+2))" "$bar" "$percent"
-    echo -en $RESET
+    printf "\033[?25l\r${color}%-*s %3d%%%s" "$((width+2))" "$bar" "$percent" >&2
+    echo -en $RESET >&2
     
-    ((percent == 100)) && printf "\033[?25h\n"
+    ((percent == 100)) && printf "\033[?25h\n" >&2
+}
+
+prompt()
+{
+    local p="$*"
+    local text
+    read -r text
+
+    echo "$p $text"
 }

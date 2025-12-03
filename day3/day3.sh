@@ -1,0 +1,54 @@
+#!/bin/bash
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
+
+. ${SCRIPTDIR}/../utils/iterate.sh
+. ${SCRIPTDIR}/../utils/nicetohave.sh
+
+find_max_n_num_joltage()
+{
+    local n="$1"
+    local row
+    read -r row
+    local num=${row:0:$n}
+    
+    local i j contender new_num
+    for i in $(seq $n $((${#row} - 1))); do 
+        new_num="${num}${row:i:1}"
+        for j in $(seq 0 $((${#new_num}-1))); do
+            contender="${new_num:0:$j}${new_num:$((j+1))}"
+            if ((contender > num)); then 
+                num=$contender
+            fi
+        done 
+
+    done 
+
+    echo $num
+}
+
+part()
+{   
+    local num 
+    case "$1" in 
+        1) num=2 ;;
+        2) num=12 ;;
+        *) echo "FATAL ERROR" >&2 && return 1 ;;
+    esac
+    while read -r line; do 
+        echo $line | find_max_n_num_joltage $num &
+        if (( $(jobs -p | wc -l) >= 16 )); then 
+            wait -n
+        fi
+    done < "$INPUT" | sum | prompt "PART $1: "
+}
+
+main() (
+    
+    part 1 &
+    part 2
+
+    wait
+)
+
+(return 0 2>/dev/null) || time main "$@"
