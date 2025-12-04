@@ -1,9 +1,17 @@
 #!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
 
 . ${SCRIPTDIR}/../utils/iterate.sh
 . ${SCRIPTDIR}/../utils/nicetohave.sh
+
+if [ -z "$INPUT" ]; then 
+    if [[ "$1" == "test" ]]; then 
+        INPUT="${SCRIPTDIR}/test.txt"
+        shift
+    else
+        INPUT=${SCRIPTDIR}/input.txt
+    fi 
+fi
 
 find_max_n_num_joltage()
 {
@@ -39,7 +47,7 @@ part()
         2) num=12 ;;
         *) echo "FATAL ERROR" >&2 && return 1 ;;
     esac
-    while read -r line; do 
+    while read -r line || [[ -n "$line" ]]; do 
         echo $line | find_max_n_num_joltage $num &
         if (( $(jobs -p | wc -l) >= 16 )); then 
             wait -n

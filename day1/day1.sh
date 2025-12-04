@@ -4,6 +4,15 @@
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 . ${SCRIPTDIR}/../utils/nicetohave.sh
 
+if [ -z "$INPUT" ]; then 
+    if [[ "$1" == "test" ]]; then 
+        INPUT="${SCRIPTDIR}/test.txt"
+        shift
+    else
+        INPUT=${SCRIPTDIR}/input.txt
+    fi 
+fi
+
 get_0_passes()
 {
     local position="$1"
@@ -60,7 +69,6 @@ part()
 
 main()
 {
-    [ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
 
     part 1
     part 2

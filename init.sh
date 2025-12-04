@@ -10,7 +10,14 @@ mkdir -p $NEXT_DAY_DIR
 ! [ -e ${NEXT_DAY_SCRIPT} ] && cat << 'EOF' > ${NEXT_DAY_SCRIPT}
 #!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
+if [ -z "$INPUT" ]; then 
+    if [[ "$1" == "test" ]]; then 
+        INPUT="${SCRIPTDIR}/test.txt"
+        shift
+    else
+        INPUT=${SCRIPTDIR}/input.txt
+    fi 
+fi
 
 main() (
     echo "Hello world!"

@@ -1,8 +1,16 @@
 #!/bin/bash 
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
 . ${SCRIPTDIR}/../utils/iterate.sh
 . ${SCRIPTDIR}/../utils/nicetohave.sh
+
+if [ -z "$INPUT" ]; then 
+    if [[ "$1" == "test" ]]; then 
+        INPUT="${SCRIPTDIR}/test.txt"
+        shift
+    else
+        INPUT=${SCRIPTDIR}/input.txt
+    fi 
+fi
 
 
 next_illegal()
