@@ -90,7 +90,7 @@ part()
     export -f is_illegal_2 get_illegals_between_1 next_illegal get_illegals_between_2
     tr -t ',' '\n' < "$INPUT"                                         | 
     awk -F '-' '{print $1 " " $2}'                                    | 
-    xargs -n2 -P32 bash -c "get_illegals_between_${partnum} "\$@"" _  | 
+    xargs -n2 -P$(nproc) bash -c "get_illegals_between_${partnum} "\$@"" _  | 
     sum | prompt "PART $partnum: "
 }
 

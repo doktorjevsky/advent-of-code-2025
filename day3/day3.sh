@@ -49,7 +49,7 @@ part()
     esac
     while read -r line || [[ -n "$line" ]]; do 
         echo $line | find_max_n_num_joltage $num &
-        if (( $(jobs -p | wc -l) >= 16 )); then 
+        if (( $(jobs -p | wc -l) >= $(nproc) )); then 
             wait -n
         fi
     done < "$INPUT" | sum | prompt "PART $1: "
