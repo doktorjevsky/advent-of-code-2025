@@ -32,16 +32,24 @@ parse_input()
 
     sort -n -k1,1 -k2,2 $bounds_tmp -o $bounds_tmp
 
+    local current="" 
+    local result
     while read low high || [ -n "$low" ]; do 
-
-        BOUNDS+=("$low $high")
+        result="$(merge_two_sorted_bounds $current $low $high)"
+        if (( $(echo $result | wc -w) == 4 )); then 
+            BOUNDS+=("$current")
+            current="$low $high"
+        else
+            current=$result
+        fi 
 
     done < $bounds_tmp
+    BOUNDS+=("$current")
 
     rm $bounds_tmp
 
-    
 }
+
 
 is_fresh()
 {
@@ -58,6 +66,9 @@ merge_two_sorted_bounds()
     local A="$3"
     local B="$4"
 
+    if [[ -z "$A" ]]; then 
+        echo "$a $b"
+    fi 
 
     if (( A - b == 1)); then 
         echo "$a $B"
@@ -75,44 +86,38 @@ merge_two_sorted_bounds()
 }
 
 
+
 part_2()
 {
-    {
-        local current="${BOUNDS[0]}"
-        local new_bounds
-        local i result
-        for ((i=1; i < ${#BOUNDS[@]}; i++)); do 
-            result="$(merge_two_sorted_bounds $current ${BOUNDS[$i]})"
-            if (( $(echo $result | wc -w) == 4 )); then 
-                echo $current
-                current="${BOUNDS[$i]}"
-            else
-                current=$result
-            fi 
-        done 
-        echo $current
-    } | awk '{result += $2 - $1 + 1} END {print result}' | prompt "PART 2: "
+    for bound in "${BOUNDS[@]}"; do 
+        [ -n "$bound" ] && echo $bound
+    done | awk '{result += $2 - $1 + 1} END {print result}' | prompt "PART 2:"
 
 }
 
 
 part_1()
 {
-    local id
+    local id 
+    local c=0
     for id in ${IDS[@]}; do 
-        (
-            for bound in "${BOUNDS[@]}"; do 
-                is_fresh $id ${bound} && echo 1 && break
-            done 
-        ) & 
-        (( $(jobs -r | wc -l) >= $(nproc) )) && wait -n
-    done | sum | prompt "PART 1: "
+
+        for bound in "${BOUNDS[@]}"; do 
+            if is_fresh $id ${bound}; then 
+                ((c++))
+                break
+            fi
+        done 
+        
+    done
+    echo "PART 1: $c"
 }
 
 main() (
     parse_input
     part_1
     part_2
+
 )
 
 (return 0 2>/dev/null) || time main "$@"
