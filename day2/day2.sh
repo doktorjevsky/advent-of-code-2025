@@ -1,6 +1,5 @@
 #!/bin/bash 
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-. ${SCRIPTDIR}/../utils/iterate.sh
 . ${SCRIPTDIR}/../utils/nicetohave.sh
 
 if [ -z "$INPUT" ]; then 
