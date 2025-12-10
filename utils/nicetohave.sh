@@ -78,7 +78,6 @@ max()
     echo $curr
 }
 
-#!/bin/bash
 
 abs()
 {
