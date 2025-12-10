@@ -19,8 +19,19 @@ if [ -z "$INPUT" ]; then
     fi 
 fi
 
+part1()
+{
+    echo "This is part 1!"
+}
+
+part2()
+{
+    echo "This is part 2!"
+}
+
 main() (
-    echo "Hello world!"
+    part1
+    part2
 )
 
 (return 0 2>/dev/null) || time main "$@"
