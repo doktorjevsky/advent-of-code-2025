@@ -80,6 +80,14 @@ max()
 
 #!/bin/bash
 
+abs()
+{
+    if (( $1 < 0 )); then
+        echo $((-1 * $1))
+    else 
+        echo $1 
+    fi
+}
 
 sum() 
 {

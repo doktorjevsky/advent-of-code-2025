@@ -2,7 +2,7 @@
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 . ${SCRIPTDIR}/../utils/nicetohave.sh
-. ${SCRIPTDIR}/../utils/vec2d.sh
+. ${SCRIPTDIR}/../utils/vec.sh
 
 if [ -z "$INPUT" ]; then 
     if [[ "$1" == "test" ]]; then 
