@@ -26,8 +26,6 @@ count_paths()
     local node="$1"
     local goal="$2"
     local mask="$3"
-
-    local masklen=${mask// /}
     local count i nbor result
 
     if [[ "$node" == "$goal" ]] && (( mask == 2**${#NODES[@]} - 1 )); then 
