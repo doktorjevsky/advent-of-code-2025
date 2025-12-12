@@ -2,7 +2,7 @@
 
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-NEXT_DAY="$((1 + $(ls ${SCRIPTDIR}/day* | grep -Eo "[0-9]+" | sort | tail -n 1)))"
+NEXT_DAY="$((1 + $(ls -1 ${SCRIPTDIR}/day* | grep -Eo "[0-9]+" | sort -n | tail -n 1)))"
 NEXT_DAY_DIR="${SCRIPTDIR}/day${NEXT_DAY}"
 NEXT_DAY_SCRIPT="${NEXT_DAY_DIR}/day${NEXT_DAY}.sh"
 
