@@ -47,7 +47,6 @@ count_paths()
 
     for nbor in ${GRAPH[$node]}; do 
         count_paths "$nbor" "$goal" "$mask"
-        sub=$RESULT
         count=$((RESULT + count))
     done 
 
