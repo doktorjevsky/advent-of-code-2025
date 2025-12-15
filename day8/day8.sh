@@ -1,17 +1,17 @@
 #!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ -z "$INPUT" ]; then 
-    if [[ "$1" == "test" ]]; then 
-        COUNT=10
-        INPUT="${SCRIPTDIR}/test.txt"
-        shift
-    else
-        COUNT=1000
-        INPUT=${SCRIPTDIR}/input.txt
-    fi 
-fi
 
+
+
+if [[ "$1" == "test" ]]; then 
+    COUNT=10
+    [ -z "$INPUT" ] && INPUT="${SCRIPTDIR}/test.txt"
+    shift
+else
+    COUNT=1000
+    [ -z "$INPUT" ] && INPUT=${SCRIPTDIR}/input.txt
+fi 
 
 dist3_sqr()
 {

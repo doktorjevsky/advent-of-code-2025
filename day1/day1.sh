@@ -37,7 +37,7 @@ part()
     local position_old
     local N=$(cat $INPUT | wc -l)
     local processed=0
-    while read -r instruction; do
+    while read -r instruction || [ -n "$instruction" ]; do
 
         local amount=$(echo $instruction | grep -oE "[0-9]+") 
         position_old=$position

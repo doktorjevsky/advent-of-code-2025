@@ -51,7 +51,7 @@ set_grid() {
     local -n gridname="$1"
     mapfile "$1" < "$INPUT"
 
-    ROWS=${#gridname}
+    ROWS=${#gridname[@]}
     COLS=$(echo ${gridname[0]} | wc -m)
     ((COLS--))
     ((ROWS--))
